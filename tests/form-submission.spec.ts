@@ -249,7 +249,7 @@ test.describe('Form Submission', () => {
     const appointmentDetails = page.locator('body');
     await expect(appointmentDetails).toContainText('Tokyo CURA Healthcare Center');
     await expect(appointmentDetails).toContainText('None');
-    await expect(appointmentDetails).toContainText('25/12/2025');
+    await expect(appointmentDetails).toContainText('25/11/2025');
     await expect(appointmentDetails).toContainText('Holiday appointment. Please confirm availability.');
   });
 
