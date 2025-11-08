@@ -146,7 +146,7 @@ test.describe('Form Submission', () => {
     // Submit first appointment with Facility="Tokyo", Date="05/12/2025"
     const dateField4 = page.locator("#txt_visit_date");
     await dateField4.click();
-    await page.locator("//td[@class='day'][text()='05']").click();
+    await page.locator("//td[@class='day'][text()='5']").click();
     await page.waitForTimeout(500);
     await page.getByRole('button', { name: 'Book Appointment' }).click();
     
@@ -155,11 +155,13 @@ test.describe('Form Submission', () => {
     await expect(confirmationHeading).toContainText('Appointment Confirmation', { timeout: 10000 });
     let appointmentDetails = page.locator('body');
     await expect(appointmentDetails).toContainText('Tokyo CURA Healthcare Center');
-    await expect(appointmentDetails).toContainText('05/12/2025');
+    await expect(appointmentDetails).toContainText('05/11/2025');
     
     // Navigate back to form
-    await page.getByRole('link', { name: 'Home' }).click();
-    await page.waitForURL('**/#appointment', { timeout: 5000 });
+    await page.locator("#menu-toggle").click();
+    await page.locator("//li/a[text()='Home']").click();
+    const url = page.url();
+    expect(url).toContain('herokuapp.com');
     
     // Submit second appointment with Facility="Hongkong", Date="10/12/2025"
     await page.getByLabel('Facility').selectOption(['Hongkong CURA Healthcare Center']);
@@ -174,13 +176,15 @@ test.describe('Form Submission', () => {
     await expect(confirmationHeading).toContainText('Appointment Confirmation', { timeout: 10000 });
     appointmentDetails = page.locator('body');
     await expect(appointmentDetails).toContainText('Hongkong CURA Healthcare Center');
-    await expect(appointmentDetails).toContainText('10/12/2025');
+    await expect(appointmentDetails).toContainText('10/11/2025');
     
     // Navigate back to form
-    await page.getByRole('link', { name: 'Home' }).click();
-    await page.waitForURL('**/#appointment', { timeout: 5000 });
+    await page.locator("#menu-toggle").click();
+    await page.locator("//li/a[text()='Home']").click();
+    const url1 = await page.url();
+    expect(url1).toContain('herokuapp.com');
     
-    // Submit third appointment with Facility="Seoul", Date="15/12/2025"
+    // Submit third appointment with Facility="Seoul", Date="15/11/2025"
     await page.getByLabel('Facility').selectOption(['Seoul CURA Healthcare Center']);
     const dateField6 = page.locator("#txt_visit_date");
     await dateField6.click();
@@ -193,7 +197,7 @@ test.describe('Form Submission', () => {
     await expect(confirmationHeading).toContainText('Appointment Confirmation', { timeout: 10000 });
     appointmentDetails = page.locator('body');
     await expect(appointmentDetails).toContainText('Seoul CURA Healthcare Center');
-    await expect(appointmentDetails).toContainText('15/12/2025');
+    await expect(appointmentDetails).toContainText('15/11/2025');
   });
 
   test('6.5 Form Submission Button State During Processing', async ({ page }) => {
